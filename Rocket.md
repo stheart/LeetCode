@@ -809,12 +809,20 @@ Spring使用了三级缓存解决了循环依赖的问题。在populateBean()给
 7. NESTED：嵌套事务，如果当前事务存在，那么在嵌套的事务中执行。如果当前事务不存在，则表现跟REQUIRED一样。
 
 ### Spring中Bean的生命周期
-
-1. 实例化 Instantiation
-2. 属性赋值 Populate
-3. 初始化 Initialization
-4. 销毁 Destruction
-
+#### 四大阶段
+1. 实例化 Instantiation:构造方法createBeanInstance()
+2. 属性赋值 Populate:依赖注入populateBean()
+3. 初始化 Initialization:initializeBean()
+4. 销毁 Destruction:容器关闭时调用
+####多个扩展点
+1. 影响多个Bean的接口
+BeanPostProcessor:作用于初始化阶段的前后。正好和第一、第三个生命周期阶段对应
+InstantiationAwareBeanPostProcessor:作用于实例化前后
+2. 只调用一次的接口 
+   Aware类型的接口:所有的Aware方法都是在初始化阶段之前调用的
+   生命周期接口 
+   InitializingBean 对应生命周期的初始化阶段
+   DisposableBean 对应生命周期的销毁阶段
 ### Spring的后置处理器
 
 1. BeanPostProcessor：Bean的后置处理器，主要在bean初始化前后工作。（before和after两个回调中间只处理了init-method）
