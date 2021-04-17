@@ -765,6 +765,26 @@ HashSet的value存的是一个static finial PRESENT = newObject()。而HashSet�
 
 ## Spring
 
+###IOC
+控制反转
+####有什么用
+1. 不用自己组装，拿来就用。
+2. 便于进行AOP操作，对于使用者是透明的。
+####源码解析
+结合bean的生命周期讲解即可
+
+###AOP原理
+1. 触发时机
+   实例化之后，属性赋值之前
+2. 步骤 
+   2.1 解析切面
+   遍历所有的Advisor，筛选出匹配当前类，构造Advisor链并排序
+   2.2 生成代理类
+   先创建代理，实现接口jdk，否则cj lib 
+   2.3 advice织入
+   比如JdkDynamicAopProxy，实现InvocationHandler接口，在invoke方法里，先根据方法找到匹配的advice，再根据advice的类型，对原方法进行不同位置的增强
+
+
 ### 什么是三级缓存
 
 1. 第一级缓存：单例缓存池singletonObjects。
@@ -787,7 +807,7 @@ HashSet的value存的是一个static finial PRESENT = newObject()。而HashSet�
 
 ### BeanFactory和ApplicationContext的区别
 
-1. BeanFactory是Spring里面最低层的接口，提供了最简单的容器的功能，只提供了实例化对象和拿对象的功能。
+1. BeanFactory是Spring里面最底层的接口，提供了最简单的容器的功能，只提供了实例化对象和拿对象的功能。
 2. ApplicationContext应用上下文，继承BeanFactory接口，它是Spring的一各更高级的容器，提供了更多的有用的功能。如国际化，访问资源，载入多个（有继承关系）上下文 ，使得每一个上下文都专注于一个特定的层次，消息发送、响应机制，AOP等。
 3. BeanFactory在启动的时候不会去实例化Bean，中有从容器中拿Bean的时候才会去实例化。ApplicationContext在启动的时候就把所有的Bean全部实例化了。它还可以为Bean配置lazy-init=true来让Bean延迟实例化
 
