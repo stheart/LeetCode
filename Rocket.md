@@ -1196,3 +1196,10 @@ select quantity from products WHERE id=3 for update;
 quantity = select quantity from products WHERE id=3;
 update products set quantity = ($quantity-1) WHERE id=3 and queantity = $quantity;
 ```
+
+### apollo基本原理
+热更新的基本原理：长轮询
+
+### xxl基本原理
+- 预先加载
+- 数据库锁select for update
