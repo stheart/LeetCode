@@ -635,6 +635,15 @@ JVM引入动态年龄计算，主要基于如下两点考虑：
     除GC日志之外，还观察到这个GUI程序内存变化的一个特点，当它最小化的时候，资源 管理中显示的占用内存大幅度减小，但是虚拟内存则没有变化，因此怀疑程序在最小化时它的工作内存被自动交换到磁盘的页面文件之中了，这样发生GC时就有可能因为恢复页面文件的操作而导致不正常的GC停顿。在Java的GUI程序中要避免这种现象，可以 加入参数“-Dsun.awt.keepWorkingSetOnMinimize=true”来解决。
 
 ## Java基础
+### java的锁
+- 悲观锁适合写操作多的场景，先加锁可以保证写操作时数据正确。（synchronized）
+- 乐观锁适合读操作多的场景，不加锁的特点能够使其读操作的性能大幅提升。（AtomicInteger.incrementAndGet()）
+- 公平锁：排队等待被唤醒（lock二者皆可）
+- 非公平锁：先尝试获取锁，获取失败再去排队（synchronized）
+- 独享锁：写锁，独享锁与独享锁互斥，独享锁和共享锁互斥
+- 共享锁：读锁，共享锁之间是兼容的
+- 重入锁：synchronized，ReentrantLock
+
 
 ### HashMap和ConcurrentHashMap
 
