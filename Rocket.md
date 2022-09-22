@@ -373,6 +373,12 @@ MySQL为了保证ACID中的一致性和持久性，使用了WAL(Write-Ahead Logg
 4. 如果有 Null column 存在的情况下，count(Null column)需要格外注意，null 值不会参与统计。
 5. Null列需要更多的存储空间：需要一个额外的字节作为判断是否为NULL的标志位
 
+### 主要关注explain哪些字段
+1. type:表示表的连接类型，优化目标至少得是range
+2. key:实际运用的索引
+3. rows:扫描出的行数(估算的行数)
+4. Extra:比如出现Using temporary表示对没有索引的列进行GROUP BY时，或者ORDER BY
+
 ### explain命令概要
 
 1. id:select选择标识符
@@ -401,7 +407,7 @@ MySQL为了保证ACID中的一致性和持久性，使用了WAL(Write-Ahead Logg
 9. UNCACHEABLE SUBQUERY(一个子查询的结果不能被缓存，必须重新评估外链接的第一行)
 
 ### explain 中的 type（表的连接类型）
-
+至少要达到 range 级别，要求是 ref 级别，如果可以是 const 最好。
 1. system：最快，主键或唯一索引查找常量值，只有一条记录，很少能出现
 2. const：PK或者unique上的等值查询
 3. eq_ref：PK或者unique上的join查询，等值匹配，对于前表的每一行(row)，后表只有一行命中
